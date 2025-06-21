@@ -1,15 +1,14 @@
-FROM node:latest
+FROM node:18
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app and build it
 COPY . .
-RUN node sammy.js && npm run build
+RUN npm run build
 
-# Serve the built frontend
+# Use serve to host the built app
 RUN npm install -g serve
+ENV HOST=0.0.0.0
 EXPOSE 3000
-CMD ["serve", "-s", "_static", "-l", "3000"]
+CMD ["serve", "-s", "build", "-l", "3000"]
