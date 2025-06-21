@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 
-/**
- * Uses Tailwind CSS for styling
- * Tailwind file is imported in App.css
- */
-
 export default function App() {
+  const [message, setMessage] = useState("Loading...");
+
+  useEffect(() => {
+    // Get backend URL from env variable
+    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
+    fetch(`${apiUrl}/api/hello`)
+      .then((res) => res.json())
+      .then((data) => setMessage(data.message))
+      .catch((err) => {
+        console.error("Failed to fetch API:", err);
+        setMessage("Error calling backend API");
+      });
+  }, []);
+
   return (
     <div className="app min-h-screen text-blue-200 flex items-center flex-col p-20">
       <div className="mb-10 grid grid-cols-4 grid-rows-2 w-1/2 mx-auto">
@@ -28,6 +38,8 @@ export default function App() {
         Welcome to Your New React App{" "}
         <span className="block text-lg text-blue-400">on DigitalOcean</span>
       </h1>
+
+      <p className="mb-6 text-lg text-green-300">{message}</p>
 
       <div className="grid grid-cols-2 grid-rows-2 gap-4">
         <Button
