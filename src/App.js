@@ -7,7 +7,7 @@ export default function App() {
 
   useEffect(() => {
     // Get backend URL from env variable
-    const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:8080";
+    const apiUrl = process.env.REACT_APP_API_URL || "http://0.0.0.0:3000";
 
     fetch(`${apiUrl}/api/hello`)
       .then((res) => res.json())
